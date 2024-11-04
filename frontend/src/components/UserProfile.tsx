@@ -1,47 +1,53 @@
-// frontend/src/components/UserProfile.tsx
+// UserProfile.tsx
 
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../styles/userProfile.css';
 import api from '../services/api';
 
-interface User {
+api.post('/auth/login', { username, password });
+
+interface UserProfileProps {
+    // Define any props if necessary
+}
+
+interface UserData {
     id: number;
     username: string;
     email: string;
-    // Add other user fields as necessary
+    // Add other relevant fields
 }
 
-const UserProfile: React.FC = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const [error, setError] = useState<string | null>(null);
+const UserProfile: React.FC<UserProfileProps> = () => {
+    const [user, setUser] = useState<UserData | null>(null);
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await api.get('/user/profile');
+                const token = localStorage.getItem('token');
+                const response = await axios.get('/api/auth/profile', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 setUser(response.data);
-            } catch (err) {
-                console.error('Failed to fetch user profile:', err);
-                setError('Unable to load user profile.');
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
             }
         };
 
         fetchUser();
     }, []);
 
-    if (error) {
-        return <p style={{ color: 'red' }}>{error}</p>;
-    }
-
     if (!user) {
-        return <p>Loading...</p>;
+        return <div>Loading...</div>;
     }
 
     return (
-        <div>
-            <h2>User Profile</h2>
-            <p>Username: {user.username}</p>
+        <div className="user-profile">
+            <h2>Welcome, {user.username}!</h2>
             <p>Email: {user.email}</p>
-            {/* Render other user information as needed */}
+            {/* Add more user details as needed */}
         </div>
     );
 };
