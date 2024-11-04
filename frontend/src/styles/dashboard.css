@@ -1,0 +1,30 @@
+.dashboard-container {
+    text-align: center;
+    padding: 50px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a, nav ul li button {
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+nav ul li a:hover, nav ul li button:hover {
+    background-color: #0056b3;
+}

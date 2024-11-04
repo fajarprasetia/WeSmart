@@ -1,0 +1,38 @@
+.add-customer-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.add-customer-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add-customer-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-customer-container input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-customer-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.add-customer-container button:hover {
+    background-color: #218838;
+}
