@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
-import Customer from '../models/Customer';
+import Customer from '../models/Customer'; // Changed from named to default import
 
-export const addCustomer = async (req: Request, res: Response) => {
+export const addCustomer = async (req: Request, res: Response): Promise<void> => {
     const { name, phoneNumber, email } = req.body;
 
     if (!name || !phoneNumber) {
-        return res.status(400).json({ error: 'Name and phone number are required' });
+        res.status(400).json({ error: 'Name and phone number are required' });
+        return;
     }
 
     try {
         const existingCustomer = await Customer.findOne({ where: { phoneNumber } });
         if (existingCustomer) {
-            return res.status(409).json({ error: 'Customer with this phone number already exists' });
+            res.status(409).json({ error: 'Customer with this phone number already exists' });
+            return;
         }
 
         const customer = await Customer.create({ name, phoneNumber, email });

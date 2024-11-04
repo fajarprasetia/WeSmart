@@ -4,10 +4,8 @@ import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
-import routes from './routes';
+import routes from './routes'; // This should now correctly import the router
 import passport from './middleware/passport';
-import customerRoutes from './routes/customerRoutes';
-import authRoutes from './routes/authRoutes';
 import whatsappRoutes from './routes/whatsappRoutes';
 
 dotenv.config();
@@ -22,15 +20,13 @@ const io = new Server(server, {
 });
 
 // Middleware
-app.use(passport.initialize());
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(passport.initialize());
 
 // Routes
 app.use('/api', routes);
-app.use('/api/customers', customerRoutes);
-app.use('/api/auth', authRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
 
 // Socket.io Connection
