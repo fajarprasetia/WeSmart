@@ -9,7 +9,7 @@ const Chat: React.FC = () => {
     const [socket, setSocket] = useState<any>(null);
 
     useEffect(() => {
-        const newSocket = io('http://154.53.47.13:5000');
+        const newSocket = io('http://your_vps_ip:5000');
         setSocket(newSocket);
 
         newSocket.on('receive_message', (msg: { sender: string, content: string }) => {
