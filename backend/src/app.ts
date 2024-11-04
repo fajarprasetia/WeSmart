@@ -9,10 +9,6 @@ import passport from './middleware/passport';
 import customerRoutes from './routes/customerRoutes';
 import authRoutes from './routes/authRoutes';
 
-app.use(passport.initialize());
-app.use('/api/customers', customerRoutes);
-app.use('/api/auth', authRoutes);
-
 dotenv.config();
 
 const app = express();
@@ -25,13 +21,15 @@ const io = new Server(server, {
 });
 
 // Middleware
+app.use(passport.initialize());
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(passport.initialize());
 
 // Routes
 app.use('/api', routes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/auth', authRoutes);
 
 // Socket.io Connection
 io.on('connection', (socket) => {
