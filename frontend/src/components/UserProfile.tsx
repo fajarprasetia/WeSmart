@@ -23,17 +23,17 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    console.error('No token found');
+                    console.error('No token found. Please log in.');
                     return;
                 }
 
-                const response = await axios.get('/api/auth/profile', {
+                const response = await axios.get<UserData>('/api/auth/profile', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
                 setUser(response.data);
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Error fetching user profile:', error);
             }
         };

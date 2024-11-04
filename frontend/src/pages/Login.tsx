@@ -5,6 +5,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 
+interface LoginResponse {
+    token: string;
+    // Add other relevant fields if necessary
+}
+
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +19,7 @@ const Login: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/auth/login', { username, password });
+            const response = await axios.post<LoginResponse>('/api/auth/login', { username, password });
             localStorage.setItem('token', response.data.token);
             navigate('/dashboard');
         } catch (err: any) {

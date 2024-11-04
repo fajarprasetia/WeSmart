@@ -5,6 +5,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/setup.css';
 
+interface SetupResponse {
+    message: string;
+    // Add other relevant fields if necessary
+}
+
 const Setup: React.FC = () => {
     const [companyName, setCompanyName] = useState('');
     const [whatsappApiUrl, setWhatsappApiUrl] = useState('');
@@ -16,7 +21,7 @@ const Setup: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('/api/setup', {
+            const response = await axios.post<SetupResponse>('/api/setup', {
                 companyName,
                 whatsappApiUrl,
                 whatsappAccessToken

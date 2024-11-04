@@ -1,6 +1,13 @@
+// AddCustomer.tsx
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/addCustomer.css';
+
+interface AddCustomerResponse {
+    message: string;
+    // Add other relevant fields if necessary
+}
 
 const AddCustomer: React.FC = () => {
     const [name, setName] = useState('');
@@ -13,7 +20,12 @@ const AddCustomer: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('/api/customers/add', {
+            if (!token) {
+                setMessage('No authentication token found. Please log in.');
+                return;
+            }
+
+            const response = await axios.post<AddCustomerResponse>('/api/customers/add', {
                 name,
                 phoneNumber,
                 email
@@ -22,12 +34,12 @@ const AddCustomer: React.FC = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setMessage('Customer added successfully!');
+            setMessage(response.data.message);
             setName('');
             setPhoneNumber('');
             setEmail('');
-        } catch (error) {
-            setMessage('Error adding customer.');
+        } catch (error: any) {
+            setMessage(error.response?.data?.error || 'Error adding customer.');
             console.error(error);
         }
     };

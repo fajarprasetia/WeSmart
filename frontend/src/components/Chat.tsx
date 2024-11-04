@@ -1,7 +1,7 @@
 // Chat.tsx
 
 import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import '../styles/chat.css';
 
@@ -13,22 +13,31 @@ interface Message {
 const Chat: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
-    const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
+    const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
+        // Initialize Socket.io client
         const newSocket = io('http://154.53.47.13:5000'); // Replace with your backend URL if different
         setSocket(newSocket);
 
+        // Listen for incoming messages
         newSocket.on('receive_message', (msg: Message) => {
             setMessages((prev) => [...prev, msg]);
         });
 
-        return () => newSocket.close();
+        // Cleanup on component unmount
+        return () => {
+            newSocket.close();
+        };
     }, []);
 
     const handleSendMessage = async () => {
         if (newMessage.trim() === '') return;
         const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No token found. Please log in.');
+            return;
+        }
         try {
             // Replace 'customer_phone_number' with dynamic value as needed
             const response = await axios.post('/api/whatsapp/send', {
@@ -41,7 +50,7 @@ const Chat: React.FC = () => {
             });
             setMessages([...messages, { sender: 'You', content: newMessage }]);
             setNewMessage('');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error sending message:', error);
         }
     };
