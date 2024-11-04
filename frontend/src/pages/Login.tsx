@@ -1,3 +1,5 @@
+// Login.tsx
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -15,8 +17,8 @@ const Login: React.FC = () => {
             const response = await axios.post('/api/auth/login', { username, password });
             localStorage.setItem('token', response.data.token);
             navigate('/dashboard');
-        } catch (err) {
-            setError('Invalid credentials');
+        } catch (err: any) {
+            setError(err.response?.data?.error || 'Invalid credentials');
             console.error(err);
         }
     };

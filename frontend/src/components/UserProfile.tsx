@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/userProfile.css';
-import api from '../services/api';
-
-api.post('/auth/login', { username, password });
 
 interface UserProfileProps {
     // Define any props if necessary
@@ -25,6 +22,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error('No token found');
+                    return;
+                }
+
                 const response = await axios.get('/api/auth/profile', {
                     headers: {
                         Authorization: `Bearer ${token}`,

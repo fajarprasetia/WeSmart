@@ -1,5 +1,7 @@
+// Chat.tsx
+
 import React, { useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 import axios from 'axios';
 import '../styles/chat.css';
 
@@ -11,27 +13,26 @@ interface Message {
 const Chat: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
-    const [socket, setSocket] = useState<Socket | null>(null);
+    const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
 
     useEffect(() => {
-        const newSocket = io('http://localhost:5000'); // Update URL if different
+        const newSocket = io('http://154.53.47.13:5000'); // Replace with your backend URL if different
         setSocket(newSocket);
 
         newSocket.on('receive_message', (msg: Message) => {
             setMessages((prev) => [...prev, msg]);
         });
 
-        return () => {
-            newSocket.close();
-        };
+        return () => newSocket.close();
     }, []);
 
     const handleSendMessage = async () => {
-        if (newMessage.trim() === '' || !socket) return;
+        if (newMessage.trim() === '') return;
         const token = localStorage.getItem('token');
         try {
+            // Replace 'customer_phone_number' with dynamic value as needed
             const response = await axios.post('/api/whatsapp/send', {
-                to: 'customer_phone_number', // Replace with dynamic value as needed
+                to: 'customer_phone_number', // Ideally, dynamically set based on selected customer
                 message: newMessage
             }, {
                 headers: {

@@ -1,3 +1,5 @@
+// Dashboard.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/dashboard.css';
@@ -15,6 +17,7 @@ const Dashboard: React.FC = () => {
                 <ul>
                     <li><Link to="/add-customer">Add Customer</Link></li>
                     <li><Link to="/chat">Live Chat</Link></li>
+                    <li><Link to="/profile">User Profile</Link></li>
                     <li><button onClick={handleLogout}>Logout</button></li>
                 </ul>
             </nav>
