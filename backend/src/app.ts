@@ -8,6 +8,7 @@ import routes from './routes';
 import passport from './middleware/passport';
 import customerRoutes from './routes/customerRoutes';
 import authRoutes from './routes/authRoutes';
+import whatsappRoutes from './routes/whatsappRoutes';
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use('/api', routes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/whatsapp', whatsappRoutes);
 
 // Socket.io Connection
 io.on('connection', (socket) => {
