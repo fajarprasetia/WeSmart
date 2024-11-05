@@ -7,6 +7,7 @@
   "devDependencies": {
     "@types/axios": "^0.9.36",
     "@types/helmet": "^0.0.48",
-    "@types/react-dom": "^18.3.1"
+    "@types/react-dom": "^18.3.1",
+    "@types/winston": "^2.4.4"
   }
 }

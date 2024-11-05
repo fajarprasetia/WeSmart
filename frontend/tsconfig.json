@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "baseUrl": "//localhost:3000" // Add this line
+    "baseUrl": "src"  // Updated baseUrl
   },
   "include": ["src"]
 }
